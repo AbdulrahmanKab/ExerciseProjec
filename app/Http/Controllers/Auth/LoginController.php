@@ -10,14 +10,11 @@ class LoginController extends Controller
 {
     public function index()
     {
-        if (auth()->check()){
-            return redirect()->back();
-        }
+
         return view('auth.login');
 
     }
     public function loginSubmit(Request $request){
-
         $creadintial =  $request->validate(['email'=>'required','password'=>'required']);
         if (auth()->attempt($creadintial)){
             if(auth()->user()->user_type =='admin'){
@@ -37,5 +34,9 @@ class LoginController extends Controller
             return redirect()->route('login');
         }
         return redirect()->intended('/');
+    }
+    protected function authenticated(Request $request, $user)
+    {
+        return redirect()->intended();
     }
 }

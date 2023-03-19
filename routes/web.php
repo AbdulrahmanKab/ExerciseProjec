@@ -12,8 +12,10 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/login',[\App\Http\Controllers\Auth\LoginController::class,'index'])->name('login');
-Route::post('/login',[\App\Http\Controllers\Auth\LoginController::class,'loginSubmit'])->name('loginSubmit');
+Route::group(['middleware' => ['guest']],function(){
+    Route::get('/login',[\App\Http\Controllers\Auth\LoginController::class,'index'])->name('login');
+    Route::post('/login',[\App\Http\Controllers\Auth\LoginController::class,'loginSubmit'])->name('loginSubmit');
+});
 
 Route::group(['middleware' => 'auth'],function (){
     Route::group(['middleware' => \App\Http\Middleware\checkAdmin::class],function (){
